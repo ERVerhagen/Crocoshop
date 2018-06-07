@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(delete_form, {'attr': {'onclick': 'return confirm("Are you sure?")'}}) }}
+        <div class="row">
+            <h1 class="col">Artikel edit</h1>
+            <input class="col-3 btn btn-danger mr-3" type="submit" value="Delete">
+        </div>
+    {{ form_end(delete_form) }}
+
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+        <input type="submit" value="Save" class="btn btn-success mb-3"/>
+        <a class="btn btn-primary mb-3 float-right" href="{{ path('artikel_index') }}">Back to the list</a>
+    {{ form_end(edit_form) }}
+
+{% endblock %}

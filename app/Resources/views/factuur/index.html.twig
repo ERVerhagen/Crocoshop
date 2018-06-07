@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Factuurs list</h1>
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Klant</th>
+                <th>Factuurdatum</th>
+                <th>Betaaltermijn</th>
+                <th>Vervaldatum</th>
+                <th>Referentie</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for factuur in factuurs %}
+            <tr>
+                <td><a href="{{ path('factuur_show', { 'id': factuur.id }) }}">{{ factuur.id }}</a></td>
+                <td>{{ factuur.klantnr }}</td>
+                <td>{% if factuur.factuurdatum %}{{ factuur.factuurdatum|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ factuur.betaaltermijn }}</td>
+                <td>{% if factuur.vervaldatum %}{{ factuur.vervaldatum|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ factuur.referentie }}</td>
+                <td>
+                            <a class="btn btn-primary" href="{{ path('factuur_show', { 'id': factuur.id }) }}">show</a>
+
+                            <a class="btn btn-warning" href="{{ path('factuur_edit', { 'id': factuur.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+            <a  href="{{ path('artikel_new') }}"><button type="button"  class="btn btn-success mb-3"><i class="fas fa-plus-circle"></i> Create new</button></a>
+{% endblock %}

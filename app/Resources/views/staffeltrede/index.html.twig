@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Staffeltredes list</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Aantal</th>
+                <th>Percentage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for staffeltrede in staffeltredes %}
+            <tr>
+                <td><a href="{{ path('staffeltrede_show', { 'id': staffeltrede.id }) }}">{{ staffeltrede.id }}</a></td>
+                <td>{{ staffeltrede.aantal }}</td>
+                <td>{{ staffeltrede.percentage }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('staffeltrede_show', { 'id': staffeltrede.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('staffeltrede_edit', { 'id': staffeltrede.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('staffeltrede_new') }}">Create a new staffeltrede</a>
+        </li>
+    </ul>
+{% endblock %}

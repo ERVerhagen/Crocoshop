@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Staffelgroeps list</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for staffelgroep in staffelgroeps %}
+            <tr>
+                <td><a href="{{ path('staffelgroep_show', { 'id': staffelgroep.id }) }}">{{ staffelgroep.id }}</a></td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('staffelgroep_show', { 'id': staffelgroep.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('staffelgroep_edit', { 'id': staffelgroep.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('staffelgroep_new') }}">Create a new staffelgroep</a>
+        </li>
+    </ul>
+{% endblock %}

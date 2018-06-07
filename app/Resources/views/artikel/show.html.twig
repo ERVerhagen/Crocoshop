@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <hr>
+        <div class="card">
+            <div class="row">
+                <aside class="col-sm-5 border-right">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap ">
+                            <img class="align-items-center" src="{{ asset('uploads/images/' ~ artikel.img) }}" width="450" style="margin: 4px;">
+                        </div> <!-- slider-product.// -->
+                    </article> <!-- gallery-wrap .end// -->
+                </aside>
+                <aside class="col-sm-7">
+                    <article class="card-body p-5">
+                        <h3 class="title mb-3">{{ artikel.naam }}</h3>
+                        <p class="price-detail-wrap">
+	<span class="price h3 text-warning">
+		<span class="currency">€</span><span class="num">{{ artikel.prijs }}</span>
+	</span>
+                        </p> <!-- price-detail-wrap .// -->
+                        <dl class="item-property">
+                            <dt>Description</dt>
+                            <dd><p>{{ artikel.omschrijving }}</p></dd>
+                        </dl>
+                        {%  if  is_granted("ROLE_ADMIN") %}
+                        <dl class="param param-feature">
+                            <dt>ID</dt>
+                            <dd>{{ artikel.id }}</dd>
+                        </dl>  <!-- item-property-hor .// -->
+                        <a href="{{ path('artikel_edit', { 'id': artikel.id }) }}" class="btn btn-lg btn-warning text-uppercase"> Edit </a>
+                        {% endif %}
+                        <a href="{{ path('artikel_index') }}" class="btn btn-lg btn-primary text-uppercase"> Back to the list</a>
+                        <a href="{{ path('cart_add', { 'id': artikel.id }) }}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to cart </a>
+                    </article> <!-- card-body.// -->
+                </aside> <!-- col.// -->
+            </div> <!-- row.// -->
+        </div> <!-- card.// -->
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Staffeltrede</h1>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ staffeltrede.id }}</td>
+            </tr>
+            <tr>
+                <th>Aantal</th>
+                <td>{{ staffeltrede.aantal }}</td>
+            </tr>
+            <tr>
+                <th>Percentage</th>
+                <td>{{ staffeltrede.percentage }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('staffeltrede_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('staffeltrede_edit', { 'id': staffeltrede.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

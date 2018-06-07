@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>SHOPPING-CART</h1>
+
+    <ul class="thumbnails">
+
+        {% set cart = app.session.get('cart') %}
+        {% set total = 0 %}
+        {% set count = 0 %}
+
+        {% if product %}
+            <div class="container">
+                <table id="cart" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="width:50%">Product</th>
+                        <th style="width:10%">Price</th>
+                        <th style="width:8%">Quantity</th>
+                        <th style="width:22%" class="text-center">Subtotal</th>
+                        <th style="width:10%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key, item in cart %}
+                    {% for row in product %}
+                    {% if row.id == key %}
+
+                    <tr>
+                        <td data-th="Product">
+                            <div class="row">
+                                <div class="col-sm-3 hidden-xs"><div style="background-image: url('{{ asset('uploads/images/' ~ row.img) }}'); height: 100px; width:100px; background-repeat: no-repeat;background-size: cover; display:block; margin: 0 auto;"></div></div>
+                                <div class="col-sm-7">
+                                    <h4 class="nomargin">{{ row.naam }}</h4>
+                                    <p>{{ row.omschrijving }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-th="Prijs">€{{ row.prijs | number_format(2)  }}</td>
+                        <td data-th="Aantal" class="text-center">{{ item }}</td>
+                        <td data-th="Subtotaal" class="text-center">€{{ (row.prijs * item) | number_format(2) }}</td>
+                        <td class="actions" data-th="">
+                            <a href="{{ path('cart_add', {'id': key}) }}"><button style=" padding: 6px 26px;" class="btn btn-success mb-2">Add</button></a>
+                            <a href="{{ path('cart_remove', {'id': key}) }}"><button class="btn btn-danger">Remove</button></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    {% set total = total + (row.prijs * item)  %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                    <tfoot>
+                    <tr>
+                        <td><a href="{{ path('artikel_index') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                        <td colspan="2" class="hidden-xs"></td>
+                        <td class="hidden-xs text-center"><strong>Totaal €{{ total | number_format(2) }}</strong></td>
+                        {% if app.user %}
+                        <td><a href="{{ path('checkout') }}" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+                        {% else %}
+                        <td><a href="{{ path('fos_user_security_login') }}" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+                        {% endif %}
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+    </ul>
+
+
+
+
+{% endblock %}

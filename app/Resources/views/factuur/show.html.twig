@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {#{% if (factuur.klantnr == app.user) %}#}
+    <h1>Factuur</h1>
+
+    <div class="container">
+        <div class="card mt-3">
+            <div class="card-header">
+                FactuurNr
+                <strong>{{ factuur.id }}</strong>
+                <span class="float-right"> <strong>Datum:</strong> {{ factuur.factuurdatum|date('Y-m-d') }}</span>
+
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-sm-6">
+                        <h6 class="mb-3">From:</h6>
+                        <div>
+                            <strong>CrocoShop</strong>
+                        </div>
+                        <div>Bleiswijkseweg 123</div>
+                        <div>4572 DK Zoetermeer, Nederland</div>
+                        <div>Email: 1031348@idcollege.nl</div>
+                        <div>Phone: +48 444 666 3333</div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h6 class="mb-3">To:</h6>
+                        <div>
+                            <strong>{{ factuur.klantnr }}</strong>
+                        </div>
+                        {% if factuur.betaaltermijn %}
+                        <div>Betaaltermijn: {{ factuur.betaaltermijn }} Maand(en)</div>
+                        {% endif %}
+                        {#{% if factuur.vervaldatum %}#}
+                        {#<div>Vervaldatum: {{ factuur.vervaldatum }}</div>#}
+                        {#{% endif %}#}
+                        {% if factuur.referentie %}
+                        <div>Referentie: {{ factuur.referentie }}</div>
+                        {% endif %}
+                        {% if factuur.betaald %}
+                        <div>Al betaald: €{{ factuur.betaald }}</div>
+                        {% endif %}
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="center">#</th>
+                            <th>Artikel</th>
+                            <th>Omschrijving</th>
+                            <th class="right">Prijs</th>
+                            <th class="center">Aantal</th>
+                            <th class="center">Btw</th>
+                            <th class="right text-right">Totaal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set gentot = 0 %}
+                        {% for regel in regels %}
+                            <tr>
+                            {% set totaal = regel.eenheid %}
+                                {% for product in products %}
+                                    {% set p = regel.artikelnr %}
+                                    {% if p.id == product.id %}
+                                        <td>{{ product.id }}</td>
+                                        <td>{{ product.naam }}</td>
+                                        <td>{{ product.omschrijving }}</td>
+                                        <td>€{{ product.prijs|number_format(2) }}</td>
+                                        <td>{{ regel.eenheid }}</td>
+                                        <td>{{ product.btw }}%</td>
+                                        <td class="text-right">€{{ (product.prijs * regel.eenheid)|number_format(2) }}</td>
+                                        {% set totaal = (totaal * product.prijs) %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% set gentot = (gentot + totaal) %}
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-sm-5">
+
+                    </div>
+
+                    <div class="col-lg-4 col-sm-5 ml-auto">
+                        <table class="table table-clear">
+                            <tbody>
+                            <tr>
+                                <td class="left">
+                                    <strong>Subtotal</strong>
+                                </td>
+                                <td class="right text-right">$8.497,00</td>
+                            </tr>
+                            <tr>
+                                <td class="left ">
+                                    <strong>Discount (20%)</strong>
+                                </td>
+                                <td class="right text-right">$1,699,40</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong>VAT (10%)</strong>
+                                </td>
+                                <td class="right text-right">$679,76</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong>Total</strong>
+                                </td>
+                                <td class="right text-right">
+                                    <strong>€{{ gentot|number_format(2) }}</strong>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+            <a class="btn btn-primary float-right mt-3" href="{{ path('factuur_index') }}">Back to the list</a>
+    {#{% else %}#}
+        {#<h2>Deze factuur is van een andere klant.</h2>#}
+    {#{% endif %}#}
+
+    {% if is_granted("ROLE_ADMIN") %}
+            <a class="btn btn-warning mt-3" style="padding: 6px 21px " href="{{ path('factuur_edit', { 'id': factuur.id }) }}">Edit</a>
+
+            {{ form_start(delete_form, {'attr': {'onclick': 'return confirm("Are you sure?")'}}) }}
+            <input class="btn btn-danger mt-3" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+    {% endif %}
+
+{% endblock %}

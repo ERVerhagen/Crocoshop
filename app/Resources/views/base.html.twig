@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <title>Crocoshop</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ asset('bundles/shop/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/shop/css/bootstrap.min.css') }}">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('bundles/shop/css/dashboard.css') }}" rel="stylesheet">
+</head>
+
+<body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Croco Shop</a>
+
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            {% if app.user %}
+                <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Sign out</a>
+            {% else %}
+                <a class="nav-link" href="{{ path('fos_user_security_login') }}">Sign in</a>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                {% if is_granted("ROLE_ADMIN") %}
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('factuur_index') }}">
+                            <i class="fas fa-file-alt"></i>
+                            Facturen
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('artikel_index') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            Artikelen
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_index') }}">
+                            <i class="fas fa-user"></i>
+                            Klanten
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('btw_index') }}">
+                            <i class="fas fa-tag"></i>
+                            Btw
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('staffelgroep_index') }}">
+                            <i class="fas fa-chart-bar"></i>
+                            Staffelgroepen
+                        </a>
+                    </li>
+                </ul>
+                {% else %}
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <b class="ml-2">Navigeren</b>
+                        </li><li class="nav-item">
+                            <a class="nav-link ml-4" href="{{ path('artikel_index') }}">
+                                Artikelen
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ml-4" href="{{ path('cart')}}">
+                                Winkelmandje
+                            </a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            {% block body %}{% endblock body %}
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ asset('bundles/shop/js/bootstrap.min.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if is_granted("ROLE_ADMIN")%}
+        <h1>Hello admin!</h1>
+    {% else %}
+            <meta http-equiv="refresh" content="0; URL='http://localhost:8000{{ path('artikel_index') }}'"/>
+    {% endif %}
+{% endblock %}
